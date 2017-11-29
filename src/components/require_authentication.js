@@ -1,13 +1,19 @@
 // HOC scaffold code
 import React, { Component } from 'react';
 // higher order component
+import { connect } from 'react-redux';
 export default function(ComposedComponent) {
 	class Authentication extends Component {
 		render() {
+			console.log('this.props.authenticated', this.props.authenticated);
+			// console.log('rendering composed component', ComposedComponent);
 			return <ComposedComponent {...this.props} />;
 		}
 	}
-	return Authentication;
+	function mapStateToProps(state) {
+		return { authenticated: state.authenticated };
+	}
+	return connect(mapStateToProps)(Authentication);
 }
 
 // // In some other location ... Not in this file...
