@@ -4,9 +4,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 export default function(ComposedComponent) {
 	class Authentication extends Component {
+		// class level property
+		static contextTypes = {
+			router: React.PropTypes.object
+		};
+		componentWillMount() {
+			if (!this.props.authenticated) {
+				this.context.router.push('/');
+			}
+		}
+		componentWillUpdate(nextProps) {
+			if (!nextProps.authenticated) {
+				this.context.router.push('/');
+			}
+		}
+		// static creates a class level property (on the actual class) Authentication.contextTypes
 		render() {
-			console.log('this.props.authenticated', this.props.authenticated);
-			// console.log('rendering composed component', ComposedComponent);
+			// console.log(this.context);
+			// console.log('this.props.authenticated', this.props.authenticated);
 			return <ComposedComponent {...this.props} />;
 		}
 	}
